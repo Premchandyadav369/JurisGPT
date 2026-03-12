@@ -1,14 +1,13 @@
-# ⚖️ JurisGPT v3 — Indian Legal AI
+# JurisGPT — Indian Legal AI
 
-[![HuggingFace](https://img.shields.io/badge/🤗_Model-Premchan369/JurisGPT-blue)](https://huggingface.co/Premchan369/JurisGPT)
-[![Space](https://img.shields.io/badge/🚀_Space-Live_Demo-green)](https://huggingface.co/spaces/Premchan369/JurisGPT-Space)
-[![License](https://img.shields.io/badge/License-Apache_2.0-orange)](LICENSE)
+[![HuggingFace](https://img.shields.io/badge/Model-HuggingFace-blue)](https://huggingface.co/Premchan369/JurisGPT)
+[![Space](https://img.shields.io/badge/Space-Live_Demo-green)](https://huggingface.co/spaces/Premchan369/JurisGPT-Space)
 
-> Updated: 2026-03-12 09:20 | Commit: v3: all datasets fixed, 50k+ corpus, verified working
+> 2026-03-12 16:57 | Final: 70k+ corpus, all datasets verified working
 
-**7,066 legal documents** | Qwen2-7B + LegalBERT + FAISS RAG
+**102,195 legal documents** | Qwen2-7B-Instruct + LegalBERT + FAISS RAG
 
-## Install & Run
+## Quick Start
 ```bash
 git clone https://github.com/Premchandyadav369/JurisGPT
 cd JurisGPT
@@ -16,22 +15,20 @@ pip install -r requirements.txt
 python app.py
 ```
 
-## Corpus (7,066 total)
+## Corpus (102,195 documents)
 | Dataset | Docs |
 |---------|------|
-| LexGLUE Case Law + SCOTUS | 5000 |
-| Human Rights Cases | 2000 |
-| CUAD Legal Contracts | 0 |
-| Indian Constitution (HF) | 0 |
-| IPC Sections (HF) | 0 |
-| Legal MC QA | 0 |
-| Pile-of-Law Contracts | 0 |
-| Pile-of-Law Opinions | 0 |
-| LegalBench Tasks | 0 |
-| Kaggle IPC | 0 |
-| Kaggle Constitution | 0 |
-| Hardcoded IPC | 41 |
-| Hardcoded Constitution | 25 |
+| LexGLUE LEDGAR (contract provisions) | 59,983 |
+| BillSum (US Congressional bills) | 18,949 |
+| Multi_Legal_Pile | 0 |
+| LexGLUE Case Hold | 3,000 |
+| LexGLUE SCOTUS | 2,000 |
+| LexGLUE ECtHR A+B | 0 |
+| LexGLUE EURLex | 5,000 |
+| CUAD Contracts | 0 |
+| Pile-of-Law | 8,181 |
+| Kaggle IPC + Constitution + Indian Legal | 5,000 |
+| Hardcoded IPC + Constitution | 82 |
 
 ## Disclaimer
 For informational purposes only. Always consult a qualified lawyer.
