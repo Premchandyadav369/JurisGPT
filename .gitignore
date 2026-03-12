@@ -1,7 +1,10 @@
 __pycache__/
-*.py[cod]
-*.egg
+*.pyc
+*.pyo
 .env
 *.bin
 *.safetensors
 *.index
+*.pt
+.DS_Store
+venv/
