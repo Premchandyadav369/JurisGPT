@@ -1,4 +1,4 @@
-"""JurisGPT v3 — Inference | 2026-03-12 09:20"""
+"""JurisGPT Inference | 2026-03-12 16:57"""
 import torch, faiss, json
 import numpy as np
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
@@ -10,23 +10,28 @@ HF_REPO = "Premchan369/JurisGPT"
 def load():
     bnb = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type="nf4",
                               bnb_4bit_compute_dtype=torch.float16)
-    tok  = AutoTokenizer.from_pretrained(HF_REPO)
-    mdl  = AutoModelForCausalLM.from_pretrained(HF_REPO, quantization_config=bnb, device_map="auto")
-    emb  = SentenceTransformer("BAAI/bge-large-en")
-    idx  = faiss.read_index(hf_hub_download(HF_REPO, "jurisgpt_faiss.index"))
+    tok = AutoTokenizer.from_pretrained(HF_REPO)
+    mdl = AutoModelForCausalLM.from_pretrained(HF_REPO, quantization_config=bnb,
+                                                device_map="auto")
+    mdl.eval()
+    emb = SentenceTransformer("BAAI/bge-large-en")
+    idx = faiss.read_index(hf_hub_download(HF_REPO, "jurisgpt_faiss.index"))
     with open(hf_hub_download(HF_REPO, "jurisgpt_metadata.json")) as f:
         meta = json.load(f)
-    print(f"✅ JurisGPT v3 loaded — {meta['total_docs']:,} docs")
+    print(f"JurisGPT ready — {meta['total_docs']:,} docs")
     return tok, mdl, emb, idx, meta
 
 def ask(q, tok, mdl, emb, idx, meta):
     qv = emb.encode([q], normalize_embeddings=True).astype("float32")
     sc, ids = idx.search(qv, 5)
-    ctx = "\n".join(f"[{meta['doc_sources'][i]}] {meta['all_docs'][i]}"
-                     for s, i in zip(sc[0], ids[0]) if i < len(meta["all_docs"]))
-    prompt = f"Legal Query: {q}\n\nLaws:\n{ctx[:2000]}\n\nAnalysis:"
-    msgs = [{"role":"system","content":"You are JurisGPT, expert Indian legal AI."},
-            {"role":"user","content":prompt}]
+    ctx = "\n".join(
+        f"[{meta['doc_sources'][i]}] {meta['all_docs'][i]}"
+        for s, i in zip(sc[0], ids[0]) if i < len(meta["all_docs"])
+    )
+    msgs = [
+        {"role": "system", "content": "You are JurisGPT, expert Indian legal AI."},
+        {"role": "user",   "content": f"Query: {q}\n\nLaws:\n{ctx[:2000]}\n\nAnalysis:"}
+    ]
     t   = tok.apply_chat_template(msgs, tokenize=False, add_generation_prompt=True)
     inp = tok(t, return_tensors="pt").to(mdl.device)
     with torch.no_grad():
@@ -39,5 +44,7 @@ if __name__ == "__main__":
     tok, mdl, emb, idx, meta = load()
     while True:
         q = input("\nQuestion (quit to exit): ").strip()
-        if q.lower() in ("quit","exit","q"): break
-        if q: print("\n" + ask(q, tok, mdl, emb, idx, meta))
+        if q.lower() in ("quit", "exit", "q"):
+            break
+        if q:
+            print("\n" + ask(q, tok, mdl, emb, idx, meta))
