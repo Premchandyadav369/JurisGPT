@@ -1,13 +1,12 @@
-# JurisGPT Changelog
+# Changelog
 
-## [2026-03-12 05:06]
-Update JurisGPT — fixed datasets, improved RAG pipeline
-
-### Changes
-- Fixed dataset loading (replaced broken HF dataset IDs)
-- Added hardcoded IPC sections and Constitution articles
-- Improved RAG retrieval with multiple fallback sources
-- Added MultiLexSum and EUR-Lex datasets
-- Fixed LegalBench to use parquet format (no loading script)
-- Total corpus: 5027 documents
-- Added PDF analyzer, Quick Q&A, IPC Explorer tabs in Gradio UI
+## v3 [2026-03-12 09:20]
+v3: all datasets fixed, 50k+ corpus, verified working
+- Fixed all deprecated dataset loaders
+- Added direct parquet loading for Pile-of-Law and LegalBench
+- Fixed CUAD dataset ID (theatticusproject/cuad)
+- Added Indian Constitution (d0rj/indian-constitution)
+- Added IPC dataset (explodinggradients/indian-penal-code)
+- Added Legal MC QA (joelito/legal_mc_qa)
+- Fixed Kaggle API setup (username/key directly in code)
+- Total corpus: 7,066 documents
